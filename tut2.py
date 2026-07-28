@@ -1,4 +1,5 @@
 import numpy as np
+import numpy.linalg as la
 
 
 def myRowEchelon3(A):
@@ -11,12 +12,12 @@ def myRowEchelon3(A):
 
 
 if __name__ == "__main__":
-    A = np.array([[2., -1., 1.], [-2., 3., -1.], [4., -15., 7.]], dtype=float)
-    np.random.seed(seed=211)
-    B = np.random.rand(3, 3)
-    C = np.array([[3,3,1], [7,-2,1], [1,4,1]], dtype=float)
-    print(myRowEchelon3(A))
-    print(myRowEchelon3(B))
+    A = np.array([[1, 1, 0], [0, -4, 1], [0,3,0]], dtype=float)
+    x = np.identity(3)
+    B = la.solve(A, x)
+    print(B)
+    print(A @ B)
 
 
-`
+
+

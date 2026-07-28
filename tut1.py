@@ -2,9 +2,8 @@ import numpy as np
 import numpy.linalg as la
 import matplotlib.pyplot as plt
 
-A = np.array([[1, 1, 1],
-              [1, 2, 3], [1, 3, 6]])
-b = np.array([3,1,4])
-x = la.solve(A, b)
-print(x)
-print(A @ x)
+x = np.linspace(-np.pi, np.pi, 11)  #11 points between start and stop ,
+y = np.sin(x) + x ** 3 / 2 - x
+fig, ax = plt.subplots()
+ax.plot(x, y)
+plt.show()
