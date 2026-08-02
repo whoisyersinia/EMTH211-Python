@@ -56,12 +56,16 @@ def backSub3(U, b):
 
 
 if __name__ == "__main__":
-    A = np.array([[2, 2, 2, 1], [-2, 4, -1, 2], [4, 4, 7, 3], [6, 9, 5, 8]], dtype=float)
-    L, U = myLU3(A)
-    print(f"L is\n{L}\nU is\n{U}\nL @ U == A: {np.allclose(A, L @ U)}")
+    # A = np.array([[-3, -3, -1], [9, 7, 0], [-6, 0, 9]], dtype=float)
+    # L, U = myLU3(A)
+    # print(f"L is\n{L}\nU is\n{U}\nL @ U == A: {np.allclose(A, L @ U)}")
 
-    b = np.array([8,7,7,0], dtype=float)
+    L = np.array([[1,0,0], [-2,1,0], [-3,0,1]], dtype=float)
+    U = np.array([[-3,0,1], [0,1,3], [0,0,-1]], dtype=float)
+    b = np.array([2,-6,-5], dtype=float)
     y = forwardSub3(L, b)
+    print(y)
     x = backSub3(U, y)
-
+    print(x)
+    A = L @ U
     print(f"x is {x}. Does Ax = b? {np.allclose(A @ x, b)}")
