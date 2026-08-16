@@ -15,9 +15,9 @@ def myGramSchmidt(basis):
 
 if __name__ == "__main__":
     basis = [
-        np.array([1., 1., 1., 1. ]),
-        np.array([3., -1., -1., 3.]),
-        np.array([1., 1., -1., 3.])
+        np.array([1., 1., -1., -1. ]),
+        np.array([-1., -4., 4., 1.]),
+        np.array([2., -3., 1., 0.])
     ]
     orth_basis = myGramSchmidt(basis)
     print(f"The new, orthogonal basis is\n{np.array(orth_basis)}\n")
