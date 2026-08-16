@@ -47,7 +47,7 @@ def backSub3(U, b):
 
     for row in range(U.shape[0]-1, -1, -1):
         total = 0
-        for col in range(U.shape[1]-1, -1, -1):
+        for col in range(U.shape[0]):
             total += U[row, col] * x[col]
 
         x[row] = 1 / (U[row, row]) * (b[row] - total)
@@ -56,9 +56,9 @@ def backSub3(U, b):
 
 
 if __name__ == "__main__":
-    # A = np.array([[-3, -3, -1], [9, 7, 0], [-6, 0, 9]], dtype=float)
-    # L, U = myLU3(A)
-    # print(f"L is\n{L}\nU is\n{U}\nL @ U == A: {np.allclose(A, L @ U)}")
+    A = np.array([[-3, -3, -1], [9, 7, 0], [-6, 0, 9]], dtype=float)
+    L, U = myLU3(A)
+    print(f"L is\n{L}\nU is\n{U}\nL @ U == A: {np.allclose(A, L @ U)}")
 
     L = np.array([[1,0,0], [-2,1,0], [-3,0,1]], dtype=float)
     U = np.array([[-3,0,1], [0,1,3], [0,0,-1]], dtype=float)
