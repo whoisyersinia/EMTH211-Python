@@ -1,6 +1,8 @@
 import numpy as np
 import scipy
 import matplotlib.pyplot as plt
+import pandas as pd
+
 
 from tut3 import backSub3, forwardSub3
 
@@ -51,7 +53,7 @@ def good_matrix(n, d):
 
 def sor(A, b, x0, w, max_iter=1000, tol=1e-8):
     iter = 0
-    results = []
+
     P = np.zeros((A.shape[0], A.shape[1]))
     Q = np.zeros((A.shape[0], A.shape[1]))
 
@@ -63,34 +65,76 @@ def sor(A, b, x0, w, max_iter=1000, tol=1e-8):
                 Q[i][j] = -A[i][j]
 
     x = x0.copy()
-    x_prev = x.copy()
     for k in range(max_iter):
+        x_prev = x.copy()
         for i in range(x.shape[0]):
             sum1 = sum(Q[i, j] * x[j] for j in range(i + 1, x.shape[0]))
             sum2 = sum(P[i, j] * x[j] for j in range(i))
             x[i] = (1-w)*x[i] + (w*(b[i] + sum1 - sum2)) / (P[i, i])
 
         iter += 1
-        results.append([k + 1, *x])
 
-        if k > 0:
-            err = np.linalg.norm(x - x_prev, np.inf) / np.linalg.norm(x, np.inf)
-            if err < tol:
-                break
+        err = np.linalg.norm(x - x_prev, np.inf) / np.linalg.norm(x, np.inf)
+        if err < tol:
+            break
 
-        x_prev = x.copy()
-    return iter, np.array(results)
-
+    return iter, x
 
 
 if __name__ == "__main__":
-    A = good_matrix(20, 0.5)
+
+    # n = 20
+    # optimal_w = []
+    # ratios = []
+    # d_values = np.linspace(0.01, 2, 50)
+    #
+    # max_iter = 1000
+    # for d in d_values:
+    #     A = good_matrix(n, d)
+    #     b = np.ones(n)
+    #     x0 = np.ones(n)
+    #     iter_array = []
+    #     w_values = np.linspace(0.01, 1.99, 300)
+    #     for w in w_values:
+    #         iter_array.append(sor(A, b, x0, w, max_iter=max_iter)[0])
+    #
+    #     iter_array = np.array(iter_array)
+    #     gs_iters = sor(A, b, x0,1)[0]
+    #     best_idx = np.argmin(iter_array)
+    #     optimal_w.append(w_values[best_idx])
+    #     ratio_sor_to_gs = iter_array[best_idx] / gs_iters
+    #     ratios.append(ratio_sor_to_gs)
+    #     print(f"{d}: Ratio = {ratio_sor_to_gs:.4f}, Best Omega = {w_values[best_idx]:.4f}")
+    #
+    # plt.plot(d_values, optimal_w, color='r')
+    # plt.xlabel('D values')
+    # plt.ylabel("Optimal ω")
+    # plt.show()
+    # plt.plot(d_values, ratios,  color='b')
+    # plt.xlabel('D values')
+    # plt.ylabel("Ratio between SOR iterations / Gauss-seidel")
+    # plt.show()
+
+    A = good_matrix(20, 0.01)
     b = np.ones(20)
-    x0 = np.array([0., 0., 0.])
+    x0 = np.ones(20)
     iter_array = []
-    w_values = np.linspace(0.01, 2, 300)
+
+    w_values = np.linspace(0.01, 1.99, 300)
     for w in w_values:
         iter_array.append((sor(A, b, x0, w))[0])
+
+    iter_array = np.array(iter_array)
+    gs_iters = sor(A, b, x0, 1)[0]
+    better_mask = iter_array < gs_iters
+    print(w_values[better_mask])
+    print(w_values[better_mask].min(), w_values[better_mask].max())  # range: 0.295 to 0.990
+
+    best_idx = np.argmin(iter_array)
+    print(w_values[best_idx], iter_array[best_idx])
+
+    for w, it in zip(w_values, iter_array):
+        print(f"{w:.4f}: {it}")
 
     plt.axhline(y=sor(A, b, x0, 1)[0], color='r', linestyle='--', linewidth=2)
     plt.plot(w_values, iter_array)
@@ -98,7 +142,7 @@ if __name__ == "__main__":
     plt.xlabel('Omega Values')
     plt.legend(['Gauss-seidel', 'SOR'])
     plt.show()
-`
+
     # np.set_printoptions(precision=4, suppress=True)
     # B = np.array([
     #     [10.0, -4.0, -3.9, -5.9, 0.5],
@@ -124,3 +168,6 @@ if __name__ == "__main__":
     # ax.set_xlabel('k')
     # ax.plot(np.arange(0, 200), relative_error_inf_norm_array)
     # plt.show()
+
+
+
