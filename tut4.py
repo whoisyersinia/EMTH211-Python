@@ -61,5 +61,4 @@ if __name__ == "__main__":
     A = np.array([[2, 0.5, -0.5], [0, 4, - 2], [4, 0, - 4]])
     b = np.array([4., 4., 0.])
     x0 = np.array([1., 0., 0.])
-    print(jacobi(A, b, x0))
     print(gauss_seidel(A, b, x0))
