@@ -115,59 +115,59 @@ if __name__ == "__main__":
     # plt.ylabel("Ratio between SOR iterations / Gauss-seidel")
     # plt.show()
 
-    A = good_matrix(20, 0.01)
-    b = np.ones(20)
-    x0 = np.ones(20)
-    iter_array = []
-
-    w_values = np.linspace(0.01, 1.99, 300)
-    for w in w_values:
-        iter_array.append((sor(A, b, x0, w))[0])
-
-    iter_array = np.array(iter_array)
-    gs_iters = sor(A, b, x0, 1)[0]
-    better_mask = iter_array < gs_iters
-    print(w_values[better_mask])
-    print(w_values[better_mask].min(), w_values[better_mask].max())  # range: 0.295 to 0.990
-
-    best_idx = np.argmin(iter_array)
-    print(w_values[best_idx], iter_array[best_idx])
-
-    for w, it in zip(w_values, iter_array):
-        print(f"{w:.4f}: {it}")
-
-    plt.axhline(y=sor(A, b, x0, 1)[0], color='r', linestyle='--', linewidth=2)
-    plt.plot(w_values, iter_array)
-    plt.ylabel('Number of iterations')
-    plt.xlabel('Omega Values')
-    plt.legend(['Gauss-seidel', 'SOR'])
-    plt.show()
-
-    # np.set_printoptions(precision=4, suppress=True)
-    # B = np.array([
-    #     [10.0, -4.0, -3.9, -5.9, 0.5],
-    #     [1.0, -0.4, 2.4, -2.0, 3.7],
-    #     [5.5, -2.2, 2.4, -2.0, 3.7],
-    #     [9.9, -6.9, 5.0, 0.7, 6.2],
-    #     [-7.5, 3.5, 5.9, 8.5, -6.2]
-    # ])
-    # B = scipy.linalg.orth(np.random.rand(5, 5))
-    # x_true = np.ones(5)
-    # relative_error_inf_norm_array = np.array([])
-    # for k in range(200):
-    #     b = np.linalg.matrix_power(B, k) @ x_true
-    #     x_approx = solve_system(B, b, k)
-    #     absolute_error = abs(x_approx - x_true)
-    #     relative_error_inf_norm = np.max(absolute_error) / np.max(x_true)
-    #     print(k, relative_error_inf_norm)
-    #     relative_error_inf_norm_array = np.append(relative_error_inf_norm_array, relative_error_inf_norm)
+    # A = good_matrix(20, 0.01)
+    # b = np.ones(20)
+    # x0 = np.ones(20)
+    # iter_array = []
     #
-    # fig, ax = plt.subplots()
-    # ax.set_title('Relative Error in Infinite Norm vs k exponent')
-    # ax.set_ylabel('Relative Error in Infinite Norm')
-    # ax.set_xlabel('k')
-    # ax.plot(np.arange(0, 200), relative_error_inf_norm_array)
+    # w_values = np.linspace(0.01, 1.99, 300)
+    # for w in w_values:
+    #     iter_array.append((sor(A, b, x0, w))[0])
+    #
+    # iter_array = np.array(iter_array)
+    # gs_iters = sor(A, b, x0, 1)[0]
+    # better_mask = iter_array < gs_iters
+    # print(w_values[better_mask])
+    # print(w_values[better_mask].min(), w_values[better_mask].max())  # range: 0.295 to 0.990
+    #
+    # best_idx = np.argmin(iter_array)
+    # print(w_values[best_idx], iter_array[best_idx])
+    #
+    # for w, it in zip(w_values, iter_array):
+    #     print(f"{w:.4f}: {it}")
+    #
+    # plt.axhline(y=sor(A, b, x0, 1)[0], color='r', linestyle='--', linewidth=2)
+    # plt.plot(w_values, iter_array)
+    # plt.ylabel('Number of iterations')
+    # plt.xlabel('Omega Values')
+    # plt.legend(['Gauss-seidel', 'SOR'])
     # plt.show()
+
+    np.set_printoptions(precision=4, suppress=True)
+    B = np.array([
+        [10.0, -4.0, -3.9, -5.9, 0.5],
+        [1.0, -0.4, 2.4, -2.0, 3.7],
+        [5.5, -2.2, 2.4, -2.0, 3.7],
+        [9.9, -6.9, 5.0, 0.7, 6.2],
+        [-7.5, 3.5, 5.9, 8.5, -6.2]
+    ])
+    # B = scipy.linalg.orth(np.random.rand(5, 5))
+    x_true = np.ones(5)
+    relative_error_inf_norm_array = np.array([])
+    for k in range(200):
+        b = np.linalg.matrix_power(B, k) @ x_true
+        x_approx = solve_system(B, b, k)
+        absolute_error = abs(x_approx - x_true)
+        relative_error_inf_norm = np.max(absolute_error) / np.max(x_true)
+        print(k, relative_error_inf_norm)
+        relative_error_inf_norm_array = np.append(relative_error_inf_norm_array, relative_error_inf_norm)
+
+    fig, ax = plt.subplots()
+    ax.set_ylabel('Relative Error in Infinite Norm')
+    ax.set_xlabel('k')
+    ax.plot(np.arange(0, 200), relative_error_inf_norm_array)
+    plt.yscale('log')
+    plt.show()
 
 
 
