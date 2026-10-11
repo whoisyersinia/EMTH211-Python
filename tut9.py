@@ -16,7 +16,7 @@ def power_method(A, x0, max_iter=100, tol=1e-6):
 if __name__ == "__main__":
     n=3
     np.random.seed(seed=211)
-    A = np.random.randn(n,n)
+    A = np.random.rand(n,n)
     x0 = np.ones(n)
 
     x = power_method(A, x0)

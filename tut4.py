@@ -69,7 +69,7 @@ def gauss_seidel(A, b, x0, max_iter=1000, tol=1e-8):
 
 def good_matrix(n, d):
     rng = np.random.default_rng(seed=211)
-    B = rng.uniform(size=(n, n))
+    B = rng.uniform(size=(n, n))  
     return B.T @ B + d * n * np.eye(n)
 
 
